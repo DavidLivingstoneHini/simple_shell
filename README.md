@@ -90,7 +90,7 @@ README.md: this.
 
 ### Contact Info:
 
-Git: [David Livingstone Hini](https://github.com/DavidLivingstoneHini), [Dennis Anyonje](https://github.com/Denno31)
+Git: [David Livingstone Hini](https://github.com/DavidLivingstoneHini), [Dennis Anyonje](https://github.com/Alexbamulanzeki)
 
 
 
