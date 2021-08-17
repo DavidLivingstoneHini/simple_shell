@@ -1,15 +1,18 @@
 #ifndef _HOLBERTON_H_
 #define _HOLBERTON_H_
-#include <sys/wait.h>
-#include <sys/types.h>
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+#include <stdbool.h>
+#include <sys/wait.h>
 #include <unistd.h>
-#include <dirent.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <signal.h>
 #include <limits.h>
-#include <string.h>
+
 
 extern char **environ;
 
@@ -27,5 +30,8 @@ typedef struct builtins
 	char *cmd;
 	int (*p_f)(char **as, char **e);
 } _built;
+
+/* _getenv */
+char *_getenv(char *input, char **environ);
 
 #endif
