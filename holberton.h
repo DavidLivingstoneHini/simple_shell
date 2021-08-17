@@ -8,6 +8,8 @@
 #include <stdarg.h>
 #include <signal.h>
 
+extern char **environ;
+
 /**
  * struct builtins - builtin command for shell
  * @cmd: cmd
@@ -22,5 +24,8 @@ typedef struct builtins
 	char *cmd;
 	int (*p_f)(char **as, char **e);
 } _built;
+
+/* _getenv */
+char *_getenv(char *input, char **environ);
 
 #endif
