@@ -31,6 +31,10 @@ typedef struct builtins
 	int (*p_f)(char **as, char **e);
 } _built;
 
+/* check_path */
+_Bool checkPath(config *);
+_Bool checkEdgeCases(config *build);
+
 /* _getenv */
 char *_getenv(char *input, char **environ);
 
