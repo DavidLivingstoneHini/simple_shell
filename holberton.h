@@ -1,21 +1,16 @@
 #ifndef _HOLBERTON_H_
 #define _HOLBERTON_H_
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
 #include <sys/wait.h>
 #include <unistd.h>
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <stdarg.h>
-#include <signal.h>
-#include <limits.h>
 #include <signal.h>
 #include <limits.h>
 
@@ -36,7 +31,6 @@ typedef struct builtins
 	int (*p_f)(char **as, char **e);
 } _built;
 
-int exit_s(char **as, char **e);
 
 /* check_path */
 _Bool checkPath(config *);
@@ -44,5 +38,7 @@ _Bool checkEdgeCases(config *build);
 
 /* _getenv */
 char *_getenv(char *input, char **environ);
+int exit_s(char **as, char **e);
+int print_env(char **as, char **e);
 
 #endif
