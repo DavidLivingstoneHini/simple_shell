@@ -90,5 +90,5 @@ int _isalpha(int c)
 	else if (c > 96 && c < 123)
 		return (1);
 	else
-		return (0);
+		return (0)
 }
