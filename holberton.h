@@ -52,6 +52,10 @@ int aliasFunc(config *build);
 _Bool checkPath(config *);
 _Bool checkEdgeCases(config *build);
 
+/* built_in_helpers*/
+int countArgs(char **args);
+int _atoi(char *s);
+
 /* _getenv */
 char *_getenv(char *input, char **environ);
 int exit_s(char **as, char **e);
