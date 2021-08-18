@@ -40,5 +40,6 @@ _Bool checkEdgeCases(config *build);
 char *_getenv(char *input, char **environ);
 int exit_s(char **as, char **e);
 int print_env(char **as, char **e);
+int _strcmp(char *s1, char *s2);
 
 #endif
