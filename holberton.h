@@ -43,6 +43,12 @@ typedef struct builtInCommands
 	int (*func)(config *build);
 } type_b;
 
+/* env */
+int envFunc(config *build);
+int setenvFunc(config *build);
+int unsetenvFunc(config *build);
+int _isalpha(int c);
+
 /* built_ins */
 _Bool findBuiltIns(config *build);
 int exitFunc(config *build);
