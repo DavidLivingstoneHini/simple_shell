@@ -15,6 +15,14 @@
 #include <limits.h>
 #include "./memofile/memo.h"
 
+/* ERRORS */
+#define BUFSIZE 256
+#define ENOSTRING 1106
+#define EILLEGAL 227
+#define EWSIZE 410
+#define ENOBUILTIN 415
+#define EBADCD 726
+
 extern char **environ;
 
 /**
