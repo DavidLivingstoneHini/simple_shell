@@ -13,6 +13,7 @@
 #include <stdarg.h>
 #include <signal.h>
 #include <limits.h>
+#include "./memofile/memo.h"
 
 extern char **environ;
 
@@ -41,5 +42,8 @@ char *_getenv(char *input, char **environ);
 int exit_s(char **as, char **e);
 int print_env(char **as, char **e);
 int _strcmp(char *s1, char *s2);
+ssize_t _getline(char **lineptr, size_t *n, int fd, list_t **mt);
+void reset_buffer(char *buffer, ssize_t buf_size);
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 
 #endif
