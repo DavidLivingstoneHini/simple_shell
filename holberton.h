@@ -31,6 +31,22 @@ typedef struct builtins
 	int (*p_f)(char **as, char **e);
 } _built;
 
+/**
+ * struct builtInCommands - commands and functions associated with it
+ * @command: input command
+ * @func: output function
+ */
+typedef struct builtInCommands
+{
+	char *command;
+	int (*func)(config *build);
+} type_b;
+
+/* built_ins */
+_Bool findBuiltIns(config *build);
+int exitFunc(config *build);
+int historyFunc(config *build);
+int aliasFunc(config *build);
 
 /* check_path */
 _Bool checkPath(config *);
