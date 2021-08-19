@@ -63,6 +63,13 @@ int exitFunc(config *build);
 int historyFunc(config *build);
 int aliasFunc(config *build);
 
+/* cd */
+int cdFunc(config *);
+_Bool cdToHome(config *build);
+_Bool cdToPrevious(config *build);
+_Bool cdToCustom(config *build);
+_Bool updateEnviron(config *build);
+
 /* check_path */
 _Bool checkPath(config *);
 _Bool checkEdgeCases(config *build);
