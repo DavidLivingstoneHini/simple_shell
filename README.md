@@ -145,7 +145,7 @@ README.md: this.
 
 ### Authors:
 
-Git: [David Livingstone Hini](https://github.com/DavidLivingstoneHini), [Bamulanzeki Alex](https://github.com/Alexbamulanzeki)
+Git: [David Livingstone Hini](https://github.com/DavidLivingstoneHini) & [Bamulanzeki Alex](https://github.com/Alexbamulanzeki)
 
 
 
