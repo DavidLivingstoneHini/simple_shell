@@ -70,6 +70,10 @@ _Bool cdToPrevious(config *build);
 _Bool cdToCustom(config *build);
 _Bool updateEnviron(config *build);
 
+/* cd2 */
+int updateOld(config *build);
+_Bool updateCur(config *build, int index);
+
 /* check_path */
 _Bool checkPath(config *);
 _Bool checkEdgeCases(config *build);
