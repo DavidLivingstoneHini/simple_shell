@@ -1,187 +1,62 @@
-#ifndef _SHELL_H_
-#define _SHELL_H_
+#ifndef SHELL
+#define SHELL
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include <sys/wait.h>
+#include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
+#include <wait.h>
 #include <fcntl.h>
-#include <errno.h>
+#include <dirent.h>
 #include <signal.h>
-#include <limits.h>
-
-/* ERRORS */
-#define BUFSIZE 256
-#define ENOSTRING 1106
-#define EILLEGAL 227
-#define EWSIZE 410
-#define ENOBUILTIN 415
-#define EBADCD 726
-
-extern char **environ;
 
 /**
- * struct linkedList - linked list data structure
- * @string: environ variable path name
- * @next: pointer to next node
- */
-typedef struct linkedList
+* struct list - linked list for environmental variables
+* @var: holds environmental variable string
+* @next: points to next node
+*/
+typedef struct list
 {
-	char *string;
-	struct linkedList *next;
-} linked_l;
+char *var;
+struct list *next;
 
-/**
- * struct configurations - configuration of build settings
- * @env: linked list of local env variables
- * @envList: array of env variables to put into execve
- * @args: array of argument strings
- * @buffer: string buffer of user input
- * @path: array of $PATH locations
- * @fullPath: string of path with correct prepended $PATH
- * @shellName: name of shell (argv[0])
- * @lineCounter: counter of lines users have entered
- * @errorStatus: error status of last child process
- */
-typedef struct configurations
-{
-	linked_l *env;
-	char **envList;
-	char **args;
-	char *buffer;
-	char *path;
-	char *fullPath;
-	char *shellName;
-	unsigned int lineCounter;
-	int errorStatus;
-} config;
+} list_t;
 
-/**
- * struct builtInCommands - commands and functions associated with it
- * @command: input command
- * @func: output function
- */
-typedef struct builtInCommands
-{
-	char *command;
-	int (*func)(config *build);
-} type_b;
-
-/* main */
-config *configInit(config *build);
-
-/* built_ins */
-_Bool findBuiltIns(config *build);
-int exitFunc(config *build);
-int historyFunc(config *build);
-int aliasFunc(config *build);
-
-/* cd */
-int cdFunc(config *);
-_Bool cdToHome(config *build);
-_Bool cdToPrevious(config *build);
-_Bool cdToCustom(config *build);
-_Bool updateEnviron(config *build);
-
-/* cd2 */
-int updateOld(config *build);
-_Bool updateCur(config *build, int index);
-
-/* env */
-int envFunc(config *build);
-int setenvFunc(config *build);
-int unsetenvFunc(config *build);
-int _isalpha(int c);
-
-/* help */
-int helpFunc(config *build);
-int displayHelpMenu(void);
-int helpExit(config *build);
-int helpEnv(config *build);
-int helpHistory(config *build);
-
-/* help2 */
-int helpAlias(config *build);
-int helpCd(config *biuld);
-int helpSetenv(config *build);
-int helpUnsetenv(config *build);
-int helpHelp(config *build);
-
-/* built_in_helpers*/
-int countArgs(char **args);
-int _atoi(char *s);
-
-/* shell */
-void shell(config *build);
-void checkAndGetLine(config *build);
-void forkAndExecute(config *build);
-void stripComments(char *str);
-void convertLLtoArr(config *build);
-
-/* _getenv */
-char *_getenv(char *input, char **environ);
-
-/* error_handler */
-void errorHandler(config *build);
-unsigned int countDigits(int num);
-char *itoa(unsigned int num);
-char *getErrorMessage();
-
-/* shell_helpers */
-void insertNullByte(char *str, unsigned int index);
-void displayPrompt(void);
-void displayNewLine(void);
-void sigintHandler(int sigint);
-
-/* check_path */
-_Bool checkPath(config *);
-_Bool checkEdgeCases(config *build);
-
-/* split_string */
-_Bool splitString(config *build);
-unsigned int countWords(char *s);
-_Bool isSpace(char c);
-
-/* string_helpers1 */
-int _strlen(char *s);
+/* function prototypes */
+int prompt(char **env);
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+size_t get_line(char **str);
+int t_strlen(char *str, int pos, char delm);
+char *ignore_space(char *str);
+char **_str_tok(char *str, char *delm);
+char **c_str_tok(char *str, char *delm);
 char *_strcat(char *dest, char *src);
-int _strcmp(char *s1, char *s2);
 char *_strdup(char *str);
 char *_strcpy(char *dest, char *src);
-
-/* string_helpers2 */
-char *_strtok(char *str, char *delim);
-int _strcspn(char *string, char *chars);
-char *_strchr(char *s, char c);
-
-/* llfuncs1 */
-linked_l *addNode(linked_l **head, char *str);
-linked_l *addNodeEnd(linked_l **head, char *str);
-size_t printList(const linked_l *h);
-int searchNode(linked_l *head, char *str);
-size_t list_len(linked_l *h);
-
-/* llfuncs2 */
-int deleteNodeAtIndex(linked_l **head, unsigned int index);
-linked_l *generateLinkedList(char **array);
-linked_l *addNodeAtIndex(linked_l **head, int index, char *str);
-char *getNodeAtIndex(linked_l *head, unsigned int index);
-
-/* welcome */
-void welcome_screen_1(void);
-void welcome_screen_2(void);
-
-/* _realloc */
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-char *_memcpy(char *dest, char *src, unsigned int n);
-
-/* free */
-void freeMembers(config *build);
-void freeArgsAndBuffer(config *build);
-void freeArgs(char **args);
-void freeList(linked_l *head);
+int _strcmp(char *s1, char *s2);
+int _cd(char **str, list_t *env, int num);
+int built_in(char **token, list_t *env, int num, char **command);
+void non_interactive(list_t *env);
+char *_which(char *str, list_t *env);
+int __exit(char **s, list_t *env, int num, char **command);
+int _execve(char *argv[], list_t *env, int num);
+void free_double_ptr(char **str);
+void free_linked_list(list_t *list);
+int _env(char **str, list_t *env);
+char *get_env(char *str, list_t *env);
+list_t *env_linked_list(char **env);
+list_t *add_end_node(list_t **head, char *str);
+size_t print_list(list_t *h);
+int delete_nodeint_at_index(list_t **head, int index);
+int _unsetenv(list_t **env, char **str);
+int _setenv(list_t **env, char **str);
+int find_env(list_t *env, char *str);
+void not_found(char *str, int num, list_t *env);
+void cant_cd_to(char *str, int c_n, list_t *env);
+void illegal_number(char *str, int c_n, list_t *env);
+char *int_to_string(int num);
 
 #endif
