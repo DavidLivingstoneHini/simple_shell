@@ -66,4 +66,3 @@ si++;
 }
 toks[p] = NULL; /* set last array ptr to NULL */
 return (toks);
-}
