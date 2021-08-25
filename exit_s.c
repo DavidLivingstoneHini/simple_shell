@@ -1,56 +1,50 @@
 #include "shell.h"
 
 /**
-* c_ignore - custom ignores spaces and newlines
-* (e.g. echo "ls\n ls" | ./a.out)
-* @str: envrionmental variables
-* Return: new string
+* c_atoi - custom atoi converts string to int
+* @s: string
+* Return: number if success, -1 if string contains non-numbers
 */
-char *c_ignore(char *str)
+int c_atoi(char *s)
 {
-while (*str == ' ' || *str == '\n')
-str++;
-return (str);
+int i = 0;
+unsigned int num = 0;
+
+while (s[i] != '\0')
+{
+if (s[i] >= '0' && s[i] <= '9') /* calculate num */
+	num = num * 10 + (s[i] - '0');
+if (s[i] > '9' || s[i] < '0') /* account for non-numbers */
+	return (-1);
+i++;
+}
+return (num);
 }
 
 /**
-* non_interactive - handles when user pipes commands into shell via pipeline
-* (e.g. echo "ls/nls -al/n" | ./a.out)
-* @env: envrionmental variables
+* __exit - frees user input and then exits main program with a value
+* @str: user's command into shell (e.g. "exit 99")
+* @env: bring in environmental variable to free at error
+* @num: bring in nth user command line input to print in error message
+* @command: bring in command to free
+* Return: 0 if success 2 if fail
 */
-void non_interactive(list_t *env)
+int __exit(char **str, list_t *env, int num, char **command)
 {
-size_t i = 0, n = 0;
-int command_line_no = 0, exit_stat = 0;
-char *command = NULL, *n_command = NULL, **n_line, **token;
+int e_value = 0;
 
-i = get_line(&command);
-if (i == 0)
+if (str[1] != NULL) /* if no value given after exit, return 0 */
+e_value = c_atoi(str[1]);
+
+if (e_value == -1) /* if value given after exit is invalid, perror */
 {
-free(command);
-exit(0);
+illegal_number(str[1], num, env); /* print error msg */
+free_double_ptr(str);
+return (2);
 }
-n_command = command;
-command = c_ignore(command);
-n_line = _str_tok(command, "\n"); /* tokenize each command string */
-if (n_command != NULL)
-free(n_command);
-n = 0;
-while (n_line[n] != NULL)
-{
-command_line_no++;
-token = NULL; /* tokenize each command in array of commands */
-token = _str_tok(n_line[n], " ");
-exit_stat = built_in(token, env, command_line_no, n_line);
-if (exit_stat)
-{
-n++;
-continue;
-}
-exit_stat = _execve(token, env, command_line_no);
-n++;
-}
-free_double_ptr(n_line);
+free_double_ptr(str); /* free user input before exiting program */
 free_linked_list(env);
-exit(exit_stat);
+if (command != NULL)
+free_double_ptr(command);
+exit(e_value);
 }
